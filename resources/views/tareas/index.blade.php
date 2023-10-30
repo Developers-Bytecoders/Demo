@@ -179,7 +179,7 @@
                             <hr class="my-4">
 
 
-
+                            <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -287,6 +287,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            </div>
                             <div style="display: flex;justify-content: center;">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination">
@@ -344,6 +345,14 @@
                 "success");
             {{ Session::forget('successEdit') }}
         @endif
+
+        @if (Illuminate\Support\Facades\Session::has('errorCreate'))
+            crearAlertas("Error al crear la tarea", "{{ Session::get('errorCreate') }}",
+                "error");
+            {{ Session::forget('errorCreate') }}
+        @endif
+
+        
 
         function eliminarTarea(id) {
             Swal.fire({

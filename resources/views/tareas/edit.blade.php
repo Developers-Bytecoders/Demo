@@ -204,6 +204,12 @@
             {{ Session::forget('successCreate') }}
         @endif
 
+        @if (Illuminate\Support\Facades\Session::has('errorEdit'))
+            crearAlertas("Error al editar la tarea", "{{ Session::get('errorEdit') }}",
+                "error");
+            {{ Session::forget('errorEdit') }}
+        @endif
+
         function eliminarTarea(id) {
             Swal.fire({
                 title: '¿Seguro que desea eliminar esta nota?',

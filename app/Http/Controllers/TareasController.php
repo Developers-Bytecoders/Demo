@@ -56,7 +56,9 @@ class TareasController extends Controller
             Session::flash('successEdit', 'Tarea editada correctamente.');
             return redirect()->route('tareas.index', $tareaId)->with('success', 'Tarea actualizada correctamente');
         } catch (\Exception $e) {
-            return redirect()->route('tareas.edit', $tareaId)->with('error', 'Error al actualizar la tarea');
+            // return redirect()->route('tareas.edit', $tareaId)->with('error', 'Error al actualizar la tarea');
+            Session::flash('errorEdit', 'Error al editar la tarea.' . $e->getMessage());
+            return redirect()->back(); 
         }
     }
 
@@ -75,7 +77,9 @@ class TareasController extends Controller
             Session::flash('successCreate', 'Tarea creada correctamente.');
             return redirect()->route('tareas.index');
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error al crear la tarea'], 500);
+            // return response()->json(['message' => 'Error al crear la tarea'], 500);
+            Session::flash('errorCreate', 'Error al crear la tarea.' . $e->getMessage());
+            return redirect()->route('tareas.index');
         }
     }
 
