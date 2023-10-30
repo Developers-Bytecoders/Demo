@@ -201,9 +201,9 @@
 
                                             <td>
                                                 @if ($tarea->status === 1)
-                                                    <span class="badge text-bg-success">Activo</span>
+                                                    <span class="badge text-bg-success">Pendiente</span>
                                                 @else
-                                                    <span class="badge text-bg-danger">Inactivo</span>
+                                                    <span class="badge text-bg-danger">Terminado</span>
                                                 @endif
                                             </td>
                                             <td>

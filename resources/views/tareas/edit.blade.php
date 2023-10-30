@@ -127,46 +127,53 @@
 
                             <div class="align-items-center pb-4">
                                 {{-- <i class="fas f-square me-1"></i> --}}
-                                <h1>Editar tarea: {{$tarea->name}}</h1>
+                                <h1>Editar tarea: {{ $tarea->name }}</h1>
                             </div>
 
                             <div class="pb-2">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="">
-                                            <form action="{{ route('tareas.update',$tarea->id) }}" enctype="multipart/form-data"
-                                                method="POST">
+                                            <form action="{{ route('tareas.update', $tarea->id) }}"
+                                                enctype="multipart/form-data" method="POST">
                                                 @method('PUT')
                                                 @csrf
                                                 <div class="inputLabel">
                                                     <label for="name">Actividad</label>
                                                     <input type="text" name="name"
                                                         class="form-control form-control-lg"
-                                                        id="exampleFormControlInput1" placeholder="{{$tarea->name}}" value="{{$tarea->name}}"
-                                                        required>
+                                                        id="exampleFormControlInput1" placeholder="{{ $tarea->name }}"
+                                                        value="{{ $tarea->name }}" required>
                                                 </div>
                                                 <div class="inputLabel">
                                                     <label for="content">Descripción</label>
                                                     <input type="text" name="content"
                                                         class="form-control form-control-lg ms-2"
                                                         id="exampleFormControlInput2"
-                                                        placeholder="{{$tarea->content}}" value="{{$tarea->content}}" required>
+                                                        placeholder="{{ $tarea->content }}"
+                                                        value="{{ $tarea->content }}" required>
                                                 </div>
                                                 <div class="inputLabel">
                                                     <label for="expires_at">Fecha de expiración</label>
                                                     <input type="datetime-local" name="expires_at"
                                                         class="form-control form-control-lg ms-2"
-                                                        id="exampleFormControlInput3" value="{{$tarea->expires_at}}"
+                                                        id="exampleFormControlInput3" value="{{ $tarea->expires_at }}"
                                                         required>
                                                 </div>
                                                 <div class="inputLabel">
                                                     <label for="status">Estatus</label>
                                                 </div>
-                                                <label class="toggle">
-                                                    <input class="toggle-checkbox" type="checkbox" name="status" onchange="toggleCheckboxValue(this)" value="1" <?php echo ($tarea->status == 1) ? 'checked' : ''; ?>>
-                                                    <div class="toggle-switch"></div>
-                                                    <span class="toggle-label"></span>
-                                                </label>
+                                                <select name="status" id="status"
+                                                    class="form-select form-select-solid select2-hidden-accessible"
+                                                    data-control="select2" data-hide-search="true"
+                                                    >
+                                                    <option value="1"
+                                                        {{ $tarea->status == 1 ? 'selected' : '' }}>
+                                                        Pendiente</option>
+                                                    <option value="0"
+                                                        {{ $tarea->status == 0 ? 'selected' : '' }}>
+                                                        Terminado</option>
+                                                </select>
 
                                                 <div style="margin-top: 1rem;">
                                                     <button type="submit" class="btn btn-primary">Editar</button>
@@ -262,13 +269,20 @@
             if (icono == 'warning') determinarIcono(icono)
         }
 
-        function toggleCheckboxValue(checkbox) {
-            if (checkbox.checked) {
-                checkbox.value = 1;
+        // Obtén el elemento del checkbox por su ID
+        const statusCheckbox = document.getElementById("statusCheckbox");
+
+        // Agrega un controlador de eventos para detectar cambios en el checkbox
+        statusCheckbox.addEventListener("change", function() {
+            // Verifica si el checkbox está marcado (checked)
+            if (statusCheckbox.checked) {
+                // Si está marcado, establece el valor del checkbox en 1
+                statusCheckbox.value = 1;
             } else {
-                checkbox.value = 0;
+                // Si no está marcado, establece el valor del checkbox en 0
+                statusCheckbox.value = 0;
             }
-        }
+        });
     </script>
 </body>
 
