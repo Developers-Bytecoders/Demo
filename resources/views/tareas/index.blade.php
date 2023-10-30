@@ -197,7 +197,60 @@
                                             <th scope="row">{{ $tarea->id }}</th>
                                             <td>{{ $tarea->name }}</td>
                                             <td>{{ $tarea->content }}</td>
-                                            <td>{{ $tarea->expires_at }}</td>
+                                            <td>
+                                                @php
+                                                // Establece la zona horaria de "Mexico City"
+                                                date_default_timezone_set('America/Mexico_City');
+                                                
+                                                $hoy = \Carbon\Carbon::now();
+                                                $fechaVencimiento = \Carbon\Carbon::parse($tarea->expires_at);
+                                            
+                                                $diferencia = $hoy->diff($fechaVencimiento);
+                                                
+                                                if ($diferencia->invert === 1) {
+                                                    // La tarea ya expiró
+                                                    $resultado = "Expirado hace ";
+                                                    if ($diferencia->y > 0) {
+                                                        $resultado .= $diferencia->y . " años, ";
+                                                    }
+                                                    if ($diferencia->m > 0) {
+                                                        $resultado .= $diferencia->m . " meses, ";
+                                                    }
+                                                    if ($diferencia->d > 0) {
+                                                        $resultado .= $diferencia->d . " días, ";
+                                                    }
+                                                    if ($diferencia->h > 0) {
+                                                        $resultado .= $diferencia->h . " horas, ";
+                                                    }
+                                                    if ($diferencia->i > 0) {
+                                                        $resultado .= $diferencia->i . " minutos, ";
+                                                    }
+                                                    $resultado = rtrim($resultado, ", ");
+                                                    echo $resultado;
+                                                } else {
+                                                    // La tarea aún no ha expirado
+                                                    $resultado = "Faltan ";
+                                                    if ($diferencia->y > 0) {
+                                                        $resultado .= $diferencia->y . " años, ";
+                                                    }
+                                                    if ($diferencia->m > 0) {
+                                                        $resultado .= $diferencia->m . " meses, ";
+                                                    }
+                                                    if ($diferencia->d > 0) {
+                                                        $resultado .= $diferencia->d . " días, ";
+                                                    }
+                                                    if ($diferencia->h > 0) {
+                                                        $resultado .= $diferencia->h . " horas, ";
+                                                    }
+                                                    if ($diferencia->i > 0) {
+                                                        $resultado .= $diferencia->i . " minutos, ";
+                                                    }
+                                                    $resultado = rtrim($resultado, ", ");
+                                                    echo $resultado;
+                                                }
+                                            @endphp
+                                            
+                                            </td>
 
                                             <td>
                                                 @if ($tarea->status === 1)
@@ -348,13 +401,20 @@
         }
 
         function crearAlertas(titulo, mensaje, icono) {
-            Swal.fire(
-                titulo,
-                mensaje,
-                icono
-            )
-            //se modifcan los estilos del icono cuando es warning
-            if (icono == 'warning') determinarIcono(icono)
+            const opciones = {
+                title: titulo,
+                text: mensaje,
+                icon: icono,
+                toast: true,
+                position: 'top-end',
+            };
+
+            Swal.fire(opciones);
+
+            // Se modifican los estilos del icono cuando es 'warning'
+            if (icono == 'warning') {
+                determinarIcono(icono);
+            }
         }
 
         function toggleCheckboxValue(checkbox) {
