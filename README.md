@@ -1,66 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://i.ibb.co/FJZQhkQ/White-2.png" alt="Bytenexus Logo" width="300" />
 </p>
 
-## About Laravel
+# Bievenido a su Task Manager! :rocket:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Prerequisites :bookmark_tabs:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP >= 8.2
+- Composer
+- Database Server (MySQL, PostgreSQL, SQLite, etc.)
+ 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Instalación del proyecto  :running_man:
 
-## Learning Laravel
+### 1. Clonación del repositorio :busts_in_silhouette:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+[![N|Solid](https://i.ibb.co/0FbhP12/Vite-installation-for-styles-3.png)](https://nodesource.com/products/nsolid)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+   - Vaya al repositorio de GitHub y haga clic en "Clonar o descargar" para copiar el enlace.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Abra su consola en la carpeta donde guardara el proyecto :desktop_computer:
+   - De click derecho y de click en  `Git Bash Here`para abrir la consola
+   
+### 4. Clone el repositorio
+   - en la conosola debera ejecutar el siguiente comando:
+     ```bash
+     git clone https://github.com/Developers-Bytecoders/Demo.git
+     ```
 
-## Laravel Sponsors
+### 5. Ubique el repositorio descargado :mag_right:
+   - abra su explorador de archivos y ubique donde se guardo el proyecto
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### 6. Abra el proyecto con visual estudio :rocket:
+[![N|Solid](https://i.ibb.co/3sh1h5Z/laravel-project.png)](https://nodesource.com/products/nsolid)
 
-### Premium Partners
+   - Arrastre la carpeta completa del proyecto a una ventana de Visual Studio Code o desde visual elija el proyecto.
+   - Corra el siguiente comando para actualizar composer
+  ```bash
+  composer update
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### 7. Change passwords 
+   - Copie y pegue el `".env.example"` y cambie el nombre a `".env"`
+  y cree una base de datos que coincida con el nombre que le asignara en su `".env"`
 
-## Contributing
+### 8.Configure la base de datos
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Edite el `.env` para configurar las variables y el nombre su bd
 
-## Code of Conduct
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=database_name
+DB_USERNAME=username
+DB_PASSWORD=password
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 9.Asigne una key al .env
 
-## Security Vulnerabilities
+corra el siguiente comando.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```env
+php artisan key:generate
+```
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 10. Corra migraciones :books:	:bookmark:	
+
+[![N|Solid](https://i.ibb.co/YDYgWSk/migrationsandseeders.png)](https://nodesource.com/products/nsolid)
+
+Para ejecutar las migraciones y sembrar su base de datos con datos iniciales, ejecute el siguiente comando:
+
+```bash
+php artisan migrate --seed
+```
+
+## 11. Iniciar el servidor para visualizar su proyecto :rocket: :desktop_computer:	
+
+[![N|Solid](https://i.ibb.co/k25rtmc/images.png)](https://nodesource.com/products/nsolid)
+
+
+Para iniciar el servidor de desarrollo de Laravel corra el siguinte comando, run: :runner: :green_circle:	
+
+```bash
+php artisan serve
+```
+
+Esto iniciará el servidor y podrá acceder al proyecto a través del navegador en la URL proporcionada en la consola, que generalmente es: :keyboard:	
+
+```bash
+http://127.0.0.1:8000
+```
