@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TareasController;
 
-Route::get('tareas', [TareasController::class, 'index'])->name('tareas.index');
+Route::get('/', [TareasController::class, 'index'])->name('tareas.index');
 
 Route::get('tareas/create', [TareasController::class, 'create'])->name('tareas.create');
 
