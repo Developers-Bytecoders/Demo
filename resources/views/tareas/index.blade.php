@@ -178,7 +178,10 @@
 
                             <hr class="my-4">
 
+                            <div>
+                                <a href="{{ url('/exportar-tareas') }}" class="btn btn-primary">Descargar las tareas en PDF</a>
 
+                            </div>
                             <div class="table-responsive">
                             <table class="table">
                                 <thead>

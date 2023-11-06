@@ -14,3 +14,6 @@ Route::get('tareas/edit/{id}', [TareasController::class, 'edit'])->name('tareas.
 Route::put('tareas/update/{tareaId}', [TareasController::class, 'update'])->name('tareas.update');
 
 Route::delete('tareas/delete/{tareaId}', [TareasController::class, 'destroy'])->name('tareas.delete');
+
+Route::get('/exportar-tareas', [TareasController::class, 'exportarTareas'])->name('tareas.export');
+

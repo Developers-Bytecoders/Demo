@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Dompdf\Dompdf;
 use App\Models\Tarea;
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Traits\Helpers\CustomExceptionTrait;
 use App\Traits\Helpers\ResponseTrait;
 use App\Traits\Helpers\HandlerFilesTrait;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Session;
 
 class TareasController extends Controller
@@ -27,7 +29,8 @@ class TareasController extends Controller
         }
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $tarea = Tarea::find($id);
 
         if (!$tarea) {
@@ -37,7 +40,8 @@ class TareasController extends Controller
         return view('tareas.edit', compact('tarea'));
     }
 
-    public function update(Request $request, $tareaId) {
+    public function update(Request $request, $tareaId)
+    {
         try {
             $tarea = Tarea::find($tareaId);
 
@@ -58,11 +62,12 @@ class TareasController extends Controller
         } catch (\Exception $e) {
             // return redirect()->route('tareas.edit', $tareaId)->with('error', 'Error al actualizar la tarea');
             Session::flash('errorEdit', 'Error al editar la tarea.' . $e->getMessage());
-            return redirect()->back(); 
+            return redirect()->back();
         }
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         try {
             $data = $request->validate([
                 'name' => 'required|string|max:255',
@@ -83,8 +88,9 @@ class TareasController extends Controller
         }
     }
 
-    
-    public function destroy($tareaId) {
+
+    public function destroy($tareaId)
+    {
         try {
             $tarea = Tarea::find($tareaId);
             if (!$tarea) {
@@ -97,5 +103,14 @@ class TareasController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error al eliminar la tarea'], 500);
         }
+    }
+
+    public function exportarTareas()
+    {
+        $tareas = Tarea::all();
+
+        $pdf = Pdf::loadView('tareas', compact('tareas'));
+
+        return $pdf->download('tareas.pdf');
     }
 }
