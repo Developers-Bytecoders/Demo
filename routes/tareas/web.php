@@ -17,3 +17,4 @@ Route::delete('tareas/delete/{tareaId}', [TareasController::class, 'destroy'])->
 
 Route::get('/exportar-tareas', [TareasController::class, 'exportarTareas'])->name('tareas.export');
 
+Route::post('/enviar-tareas', [TareasController::class, 'enviarTareas'])->name('enviar-tareas');

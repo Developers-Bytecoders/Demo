@@ -179,117 +179,120 @@
                             <hr class="my-4">
 
                             <div>
-                                <a href="{{ url('/exportar-tareas') }}" class="btn btn-primary">Descargar las tareas en PDF</a>
-
+                                <a href="{{ url('/exportar-tareas') }}" class="btn btn-primary">Descargar las tareas en
+                                    PDF</a>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enviarTareasModal">
+                                    Enviar Tareas por correo
+                                </button>
                             </div>
                             <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Actividad</th>
-                                        <th scope="col">Contenido</th>
-                                        <th scope="col">Fecha de expiración</th>
-                                        <th scope="col">Estatus</th>
-                                        <th scope="col">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($tasks as $tarea)
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <th scope="row">{{ $tarea->id }}</th>
-                                            <td>{{ $tarea->name }}</td>
-                                            <td>{{ $tarea->content }}</td>
-                                            <td>
-                                                @php
-                                                // Establece la zona horaria de "Mexico City"
-                                                date_default_timezone_set('America/Mexico_City');
-                                                
-                                                $hoy = \Carbon\Carbon::now();
-                                                $fechaVencimiento = \Carbon\Carbon::parse($tarea->expires_at);
-                                            
-                                                $diferencia = $hoy->diff($fechaVencimiento);
-                                                
-                                                if ($diferencia->invert === 1) {
-                                                    // La tarea ya expiró
-                                                    $resultado = "Expirado hace ";
-                                                    if ($diferencia->y > 0) {
-                                                        $resultado .= $diferencia->y . " años, ";
-                                                    }
-                                                    if ($diferencia->m > 0) {
-                                                        $resultado .= $diferencia->m . " meses, ";
-                                                    }
-                                                    if ($diferencia->d > 0) {
-                                                        $resultado .= $diferencia->d . " días, ";
-                                                    }
-                                                    if ($diferencia->h > 0) {
-                                                        $resultado .= $diferencia->h . " horas, ";
-                                                    }
-                                                    if ($diferencia->i > 0) {
-                                                        $resultado .= $diferencia->i . " minutos, ";
-                                                    }
-                                                    $resultado = rtrim($resultado, ", ");
-                                                    echo $resultado;
-                                                } else {
-                                                    // La tarea aún no ha expirado
-                                                    $resultado = "Faltan ";
-                                                    if ($diferencia->y > 0) {
-                                                        $resultado .= $diferencia->y . " años, ";
-                                                    }
-                                                    if ($diferencia->m > 0) {
-                                                        $resultado .= $diferencia->m . " meses, ";
-                                                    }
-                                                    if ($diferencia->d > 0) {
-                                                        $resultado .= $diferencia->d . " días, ";
-                                                    }
-                                                    if ($diferencia->h > 0) {
-                                                        $resultado .= $diferencia->h . " horas, ";
-                                                    }
-                                                    if ($diferencia->i > 0) {
-                                                        $resultado .= $diferencia->i . " minutos, ";
-                                                    }
-                                                    $resultado = rtrim($resultado, ", ");
-                                                    echo $resultado;
-                                                }
-                                            @endphp
-                                            
-                                            </td>
-
-                                            <td>
-                                                @if ($tarea->status === 1)
-                                                    <span class="badge text-bg-success">Pendiente</span>
-                                                @else
-                                                    <span class="badge text-bg-danger">Terminado</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('tareas.edit', $tarea->id) }}" class="text-info"
-                                                    data-mdb-toggle="tooltip" title="Edit todo"><svg width="16"
-                                                        height="16" viewBox="0 0 16 16" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M11.2728 2.98294L13.0171 4.72637M13.3531 10.8823V13.3529C13.3531 13.7898 13.1795 14.2087 12.8706 14.5176C12.5618 14.8265 12.1428 15 11.706 15H2.64708C2.21024 15 1.7913 14.8265 1.48242 14.5176C1.17353 14.2087 1 13.7898 1 13.3529V4.29401C1 3.85718 1.17353 3.43824 1.48242 3.12935C1.7913 2.82046 2.21024 2.64693 2.64708 2.64693H5.11769M12.3945 1.44704L7.67807 6.16344C7.43437 6.40679 7.26817 6.71684 7.20042 7.05451L6.76476 9.23524L8.94549 8.79876C9.28314 8.73123 9.59279 8.5657 9.83656 8.32193L14.553 3.60553C14.6947 3.4638 14.8071 3.29555 14.8838 3.11037C14.9605 2.92519 15 2.72672 15 2.52628C15 2.32585 14.9605 2.12738 14.8838 1.9422C14.8071 1.75702 14.6947 1.58877 14.553 1.44704C14.4112 1.30531 14.243 1.19288 14.0578 1.11618C13.8726 1.03948 13.6741 1 13.4737 1C13.2733 1 13.0748 1.03948 12.8896 1.11618C12.7045 1.19288 12.5362 1.30531 12.3945 1.44704Z"
-                                                            stroke="#5DCA29" stroke-width="1.5" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                    </svg></a>
-                                                <a href="#!" onclick="eliminarTarea({{ $tarea->id }})"
-                                                    class="text-danger" data-mdb-toggle="tooltip"
-                                                    title="Delete todo"><svg width="18" height="18"
-                                                        viewBox="0 0 18 18" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M15.375 4.5H2.625M14.1248 6.375L13.7798 11.55C13.647 13.5405 13.581 14.5358 12.9323 15.1425C12.2835 15.75 11.2853 15.75 9.29025 15.75H8.70975C6.71475 15.75 5.7165 15.75 5.06775 15.1425C4.419 14.5358 4.35225 13.5405 4.22025 11.55L3.87525 6.375M7.125 8.25L7.5 12M10.875 8.25L10.5 12"
-                                                            stroke="#ED1010" stroke-width="1.5"
-                                                            stroke-linecap="round" />
-                                                        <path
-                                                            d="M4.875 4.5H4.9575C5.25933 4.49229 5.55182 4.39367 5.79669 4.21703C6.04157 4.0404 6.22744 3.79398 6.33 3.51L6.3555 3.43275L6.42825 3.2145C6.4905 3.02775 6.522 2.93475 6.56325 2.85525C6.64441 2.69954 6.76088 2.56499 6.90336 2.46237C7.04583 2.35974 7.21035 2.2919 7.38375 2.26425C7.4715 2.25 7.56975 2.25 7.76625 2.25H10.2338C10.4303 2.25 10.5285 2.25 10.6162 2.26425C10.7896 2.2919 10.9542 2.35974 11.0966 2.46237C11.2391 2.56499 11.3556 2.69954 11.4367 2.85525C11.478 2.93475 11.5095 3.02775 11.5717 3.2145L11.6445 3.43275C11.7395 3.7487 11.9361 4.02451 12.2038 4.21745C12.4714 4.41039 12.7952 4.5097 13.125 4.5"
-                                                            stroke="#ED1010" stroke-width="1.5" />
-                                                    </svg></a>
-                                            </td>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Actividad</th>
+                                            <th scope="col">Contenido</th>
+                                            <th scope="col">Fecha de expiración</th>
+                                            <th scope="col">Estatus</th>
+                                            <th scope="col">Acciones</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($tasks as $tarea)
+                                            <tr>
+                                                <th scope="row">{{ $tarea->id }}</th>
+                                                <td>{{ $tarea->name }}</td>
+                                                <td>{{ $tarea->content }}</td>
+                                                <td>
+                                                    @php
+                                                        // Establece la zona horaria de "Mexico City"
+                                                        date_default_timezone_set('America/Mexico_City');
+
+                                                        $hoy = \Carbon\Carbon::now();
+                                                        $fechaVencimiento = \Carbon\Carbon::parse($tarea->expires_at);
+
+                                                        $diferencia = $hoy->diff($fechaVencimiento);
+
+                                                        if ($diferencia->invert === 1) {
+                                                            // La tarea ya expiró
+                                                            $resultado = 'Expirado hace ';
+                                                            if ($diferencia->y > 0) {
+                                                                $resultado .= $diferencia->y . ' años, ';
+                                                            }
+                                                            if ($diferencia->m > 0) {
+                                                                $resultado .= $diferencia->m . ' meses, ';
+                                                            }
+                                                            if ($diferencia->d > 0) {
+                                                                $resultado .= $diferencia->d . ' días, ';
+                                                            }
+                                                            if ($diferencia->h > 0) {
+                                                                $resultado .= $diferencia->h . ' horas, ';
+                                                            }
+                                                            if ($diferencia->i > 0) {
+                                                                $resultado .= $diferencia->i . ' minutos, ';
+                                                            }
+                                                            $resultado = rtrim($resultado, ', ');
+                                                            echo $resultado;
+                                                        } else {
+                                                            // La tarea aún no ha expirado
+                                                            $resultado = 'Faltan ';
+                                                            if ($diferencia->y > 0) {
+                                                                $resultado .= $diferencia->y . ' años, ';
+                                                            }
+                                                            if ($diferencia->m > 0) {
+                                                                $resultado .= $diferencia->m . ' meses, ';
+                                                            }
+                                                            if ($diferencia->d > 0) {
+                                                                $resultado .= $diferencia->d . ' días, ';
+                                                            }
+                                                            if ($diferencia->h > 0) {
+                                                                $resultado .= $diferencia->h . ' horas, ';
+                                                            }
+                                                            if ($diferencia->i > 0) {
+                                                                $resultado .= $diferencia->i . ' minutos, ';
+                                                            }
+                                                            $resultado = rtrim($resultado, ', ');
+                                                            echo $resultado;
+                                                        }
+                                                    @endphp
+
+                                                </td>
+
+                                                <td>
+                                                    @if ($tarea->status === 1)
+                                                        <span class="badge text-bg-success">Pendiente</span>
+                                                    @else
+                                                        <span class="badge text-bg-danger">Terminado</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('tareas.edit', $tarea->id) }}" class="text-info"
+                                                        data-mdb-toggle="tooltip" title="Edit todo"><svg width="16"
+                                                            height="16" viewBox="0 0 16 16" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M11.2728 2.98294L13.0171 4.72637M13.3531 10.8823V13.3529C13.3531 13.7898 13.1795 14.2087 12.8706 14.5176C12.5618 14.8265 12.1428 15 11.706 15H2.64708C2.21024 15 1.7913 14.8265 1.48242 14.5176C1.17353 14.2087 1 13.7898 1 13.3529V4.29401C1 3.85718 1.17353 3.43824 1.48242 3.12935C1.7913 2.82046 2.21024 2.64693 2.64708 2.64693H5.11769M12.3945 1.44704L7.67807 6.16344C7.43437 6.40679 7.26817 6.71684 7.20042 7.05451L6.76476 9.23524L8.94549 8.79876C9.28314 8.73123 9.59279 8.5657 9.83656 8.32193L14.553 3.60553C14.6947 3.4638 14.8071 3.29555 14.8838 3.11037C14.9605 2.92519 15 2.72672 15 2.52628C15 2.32585 14.9605 2.12738 14.8838 1.9422C14.8071 1.75702 14.6947 1.58877 14.553 1.44704C14.4112 1.30531 14.243 1.19288 14.0578 1.11618C13.8726 1.03948 13.6741 1 13.4737 1C13.2733 1 13.0748 1.03948 12.8896 1.11618C12.7045 1.19288 12.5362 1.30531 12.3945 1.44704Z"
+                                                                stroke="#5DCA29" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg></a>
+                                                    <a href="#!" onclick="eliminarTarea({{ $tarea->id }})"
+                                                        class="text-danger" data-mdb-toggle="tooltip"
+                                                        title="Delete todo"><svg width="18" height="18"
+                                                            viewBox="0 0 18 18" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M15.375 4.5H2.625M14.1248 6.375L13.7798 11.55C13.647 13.5405 13.581 14.5358 12.9323 15.1425C12.2835 15.75 11.2853 15.75 9.29025 15.75H8.70975C6.71475 15.75 5.7165 15.75 5.06775 15.1425C4.419 14.5358 4.35225 13.5405 4.22025 11.55L3.87525 6.375M7.125 8.25L7.5 12M10.875 8.25L10.5 12"
+                                                                stroke="#ED1010" stroke-width="1.5"
+                                                                stroke-linecap="round" />
+                                                            <path
+                                                                d="M4.875 4.5H4.9575C5.25933 4.49229 5.55182 4.39367 5.79669 4.21703C6.04157 4.0404 6.22744 3.79398 6.33 3.51L6.3555 3.43275L6.42825 3.2145C6.4905 3.02775 6.522 2.93475 6.56325 2.85525C6.64441 2.69954 6.76088 2.56499 6.90336 2.46237C7.04583 2.35974 7.21035 2.2919 7.38375 2.26425C7.4715 2.25 7.56975 2.25 7.76625 2.25H10.2338C10.4303 2.25 10.5285 2.25 10.6162 2.26425C10.7896 2.2919 10.9542 2.35974 11.0966 2.46237C11.2391 2.56499 11.3556 2.69954 11.4367 2.85525C11.478 2.93475 11.5095 3.02775 11.5717 3.2145L11.6445 3.43275C11.7395 3.7487 11.9361 4.02451 12.2038 4.21745C12.4714 4.41039 12.7952 4.5097 13.125 4.5"
+                                                                stroke="#ED1010" stroke-width="1.5" />
+                                                        </svg></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                             <div style="display: flex;justify-content: center;">
                                 <nav aria-label="Page navigation example">
@@ -327,6 +330,30 @@
             </div>
 
         </div>
+
+
+        <!-- Modal de envío de tareas -->
+        <div class="modal fade" id="enviarTareasModal" tabindex="-1" role="dialog"
+            aria-labelledby="enviarTareasModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <!-- Contenido del modal -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="enviarTareasModalLabel">Enviar Tareas por Correo</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('enviar-tareas') }}" method="POST">
+                            @csrf
+                            <div class="form-group mb-4">
+                                <label for="email">Correo Electrónico:</label>
+                                <input type="email" name="email" id="email" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
 
@@ -355,7 +382,7 @@
             {{ Session::forget('errorCreate') }}
         @endif
 
-        
+
 
         function eliminarTarea(id) {
             Swal.fire({

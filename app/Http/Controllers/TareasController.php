@@ -14,6 +14,8 @@ use App\Traits\Helpers\ResponseTrait;
 use App\Traits\Helpers\HandlerFilesTrait;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TareasMail;
 
 class TareasController extends Controller
 {
@@ -112,5 +114,21 @@ class TareasController extends Controller
         $pdf = Pdf::loadView('tareas', compact('tareas'));
 
         return $pdf->download('tareas.pdf');
+    }
+
+    public function enviarTareas(Request $request)
+    {
+        // Valida el formulario
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        // Obtiene las tareas a enviar (puedes ajustar esta consulta según tus necesidades)
+        $tareas = Tarea::all();
+
+        // Envía las tareas por correo
+        Mail::to($request->input('email'))->send(new TareasMail($tareas));
+
+        return redirect()->back()->with('success', 'Tareas enviadas con éxito.');
     }
 }
