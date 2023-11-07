@@ -128,7 +128,7 @@ class TareasController extends Controller
 
         // Envía las tareas por correo
         Mail::to($request->input('email'))->send(new TareasMail($tareas));
-
+        Session::flash('successMail', 'Tareas enviadas correctamente.');
         return redirect()->back()->with('success', 'Tareas enviadas con éxito.');
     }
 }

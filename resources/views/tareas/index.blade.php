@@ -376,6 +376,12 @@
             {{ Session::forget('successEdit') }}
         @endif
 
+        @if (Illuminate\Support\Facades\Session::has('successMail'))
+            crearAlertas("Tareas enviadas al correo exitosamente", "{{ Session::get('successMail') }}",
+                "success");
+            {{ Session::forget('successMail') }}
+        @endif
+
         @if (Illuminate\Support\Facades\Session::has('errorCreate'))
             crearAlertas("Error al crear la tarea", "{{ Session::get('errorCreate') }}",
                 "error");
